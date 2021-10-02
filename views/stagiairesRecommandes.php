@@ -172,7 +172,8 @@ if ($reste == 0) {
                         <div class="panel-body">
 
                             <!-- Début du tableau -->
-
+                            <h3 style="margin-top: -12px">Tableau de bord </h3>
+                            <hr></hr>
                             <div class="div1">
                                 <table>
                                     <tr>
@@ -203,6 +204,9 @@ if ($reste == 0) {
                             </div>
 
                             <div class="div4">
+                                <?php 
+                                    $enAttente ="<i class='fa fa-spinner fa-spin fa-3x fa-fw '  title='En attente' style='color:orange;'></i>"
+                                ?>
                                 <table>
                                     <tr>
                                         <td style="color: white; font-size: 25px;" class="td1">
@@ -247,11 +251,11 @@ if ($reste == 0) {
                                         <td>
                                             <a onclick="return confirm('Etes-vous sûr de vouloir accepter ce stagiaire ?')"
                                                 href="../traitement/activerStagiaire.php?idS=<?php echo $filiere['idS'] ?>&status=<?php echo 2  ?>">
-                                                <i class="fa fa-check" style="font-size:20px; color:green">Accepté</i>
-                                            </a>&nbsp; ou &nbsp;
+                                                <i class="fa fa-check" style="font-size:20px; color:white; background-color:#266643; padding:5px; border-radius: 5px;">Accepter</i>
+                                            </a>
                                             <a onclick="return confirm('Etes-vous sûr de vouloir rejeter ce stagiaire ?')"
                                                 href="../traitement/activerStagiaire.php?idS=<?php echo $filiere['idS']?>&status=<?php echo 1  ?>">
-                                                <i class="fa fa-close" style="font-size:20px; color:red"> Rejeté</i>
+                                                <i class="fa fa-close" style="font-size:20px; color:white; background-color: #cf0000; padding:5px;border-radius: 5px;"> Rejeter</i>
                                             </a>
                                         </td>
 
