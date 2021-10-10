@@ -14,8 +14,27 @@ $requeteFiliere = "select * from filiere"; // Requête filière
 
 $requeteE = "select * from entreprise";
 
+$jour = date("d");
+$m = date("m");
+$y = date("Y");
+$h = date("H");
+
+$heures = $h + 1;
+$min = date("i");
+
+$newDate = "SELECT * FROM newdate";
+$resulNewDate = $pdo->query($newDate);
+$newDateSt = $resulNewDate->fetch();
+
+$jourN = $newDateSt["jourD"];
+$moisN = $newDateSt["moisD"];
+$anneeN = $newDateSt["anneeD"];
+$heureN = $newDateSt["heureD"];
+$minN = $newDateSt["minuteD"];
+
+
 if ($idfiliere == 0) {
-    $requeteStagiaire = "SELECT idS, nomS, postnomS, prenomS, nomF, sexeS,status, section, niveau, nomE
+    $requeteStagiaire = "SELECT idS, nomS, postnomS, prenomS, nomF, sexeS,status, section, niveau, nomE, jour, mois, annee, heure, minute
                   from filiere as f, stagiaire as s, entreprise as en
                   where f.idF = s.idF and en.idE = s.idE
                   and (nomS like '%$nomPostnom%' or postnomS like '%$nomPostnom%')
@@ -43,7 +62,7 @@ where nomS like '%$nomPostnom%' or postnomS like '%$nomPostnom%'";
 }*/
 
 else {
-    $requeteStagiaire = "SELECT idS, nomS, postnomS,prenomS,nomF, sexeS,status, section, niveau, nomE
+    $requeteStagiaire = "SELECT idS, nomS, postnomS,prenomS,nomF, sexeS,status, section, niveau, nomE, jour, mois, annee, heure, minute
                   from filiere as f, stagiaire as s, entreprise as e
                   where f.idF = s.idF
                   and (nomS like '%$nomPostnom%' or postnomS like '%$nomPostnom%')
@@ -150,14 +169,14 @@ if ($reste == 0) {
                     </div>
                     <!-- Bouton de recherche -->
                     <button type="submit" class="btn btn-primary"
-                        style="background : #32475c; height: 36px;border: none">
+                        style="background : #32475c; height: 36px;border: none; font-family: Segoe UI; font-size:16px;">
                         <span class="glyphicon glyphicon-search"> </span> Rechercher...
                     </button> &nbsp; &nbsp;
 
                     <!-- Partie pour ajout d'un nouveau inscrit -->
                     <?php if ($_SESSION['user']['role'] == 'ADMIN') {?>
-                    <a href="NouveauS.php">
-                        <span class="glyphicon glyphicon-plus"> </span> Recommandation Stagiaire
+                    <a href="NouveauS.php" style="font-family: Segoe UI; font-size:18px; text-decoration: none;">
+                         <span class="glyphicon glyphicon-plus"> </span>  Recommander un Stagiaire 
                     </a>
                     <?php }?>
                 </form>
@@ -179,39 +198,59 @@ if ($reste == 0) {
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Nom</th>
-                            <th>Postnom</th>
-                            <th>Prénom</th>
+                            <th>Noms</th>
                             <th>SEXE</th>
                             <th>Filière</th>
                             <th>Section</th>
                             <th>Niveau</th>
                             <th>Entreprise</th>
+                            <th>Date de recommand.</th>
+                            <th>Date début stage</th>
+                            <th>Statut</th>
                             <th>Actions</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <!-- Instruction pour afficher le résultat ds le tableau (Partie body) -->
                         <?php while ($stagiaire = $resultatStagiaire->fetch()) {
-    if (empty($stagiaire)) {?>
+                            if (empty($stagiaire)) {?>
                         <tr>
                             <td>Aucune donnée</td>
                         </tr>
                         <?php
-} else {?>
+                            } else {?>
                         <div class="tableau">
                             <tr>
                                 <td><?php echo $stagiaire['idS'] ?></td>
-                                <td><?php echo $stagiaire['nomS'] ?></td>
-                                <td width="13%"><?php echo $stagiaire['postnomS'] ?></td>
-                                <td width="13%"><?php echo $stagiaire['prenomS'] ?></td>
+                                <td><?php echo $stagiaire['nomS'] . " " .$stagiaire['postnomS']. " " .$stagiaire['prenomS'] ?></td>
                                 <td><?php echo $stagiaire['sexeS'] ?></td>
-                                <td width="23%"><?php echo $stagiaire['nomF'] ?></td>
+                                <td width=auto><?php echo $stagiaire['nomF'] ?></td>
                                 <td><?php echo $stagiaire['section'] ?></td>
                                 <td><?php echo $stagiaire['niveau'] ?></td>
                                 <td><?php echo $stagiaire['nomE'] ?></td>
+                                <td><?php echo $stagiaire["jour"] ." . " .$stagiaire["mois"] . " . " .$stagiaire["annee"] . " , " . $stagiaire["heure"] . " : " .$stagiaire["minute"] ?></td>
+                                <?php 
+                                    if($stagiaire['status'] == 1){
+                                        echo "<td>Pas de date précise</td>";
+                                    }else if($stagiaire['status'] ==2){
+                                        echo "<td> $jourN . $moisN . $anneeN , $heureN : $minN </td>";
+                                    }else{
+                                        echo "<td>La date en attente</td>";
+                                    }
+                                ?>
+
+                                <td style="font-size: 18px;">
+                                    <?php
+                                        if ($stagiaire['status'] == 0) {
+                                                echo ' <i class="fa fa-spinner fa-spin fa-3x fa-fw "  title="En attente" style="color:orange;"></i> <span style="font-family:Segoe UI; font-size:17px; color:orange;">En attente</span> ';
+                                            } elseif ($stagiaire['status'] == 1) {
+                                                echo ' <i class="fa fa-close "  title="Non approuvé" style="color:red; font-size:16px"> <span style="font-family:Segoe UI">Non approuvé</span></i> ';
+                                            } elseif ($stagiaire['status'] == 2) {
+                                                echo ' <i class="fa fa-check "  title="Approuvé" style="color:green; "> <span style="font-family:Segoe UI">Approuvé</span> </i> ';
+                                            }
+                                    ?>
+                                </td>
                                 <td>
                                     <!-- Affichges des glyphicons de rubrique 'Actions' -->
                                     <a href="editerStagiaire.php?idS=<?php echo $stagiaire['idS'] ?>">
@@ -224,17 +263,8 @@ if ($reste == 0) {
                                         <span class="glyphicon glyphicon-trash"> </span>
                                     </a>
                                 </td>
-                                <td style="font-size: 18px;">
-                                    <?php
-                                        if ($stagiaire['status'] == 0) {
-                                                echo ' <i class="fa fa-spinner fa-spin fa-3x fa-fw "  title="En attente" style="color:orange;"></i> <span style="font-family:Segoe UI; font-size:17px; color:orange;">En attente...</span> ';
-                                            } elseif ($stagiaire['status'] == 1) {
-                                                echo ' <i class="fa fa-close "  title="Non approuvé" style="color:red; font-size:16px"> <span style="font-family:Segoe UI">Non approuvé</span></i> ';
-                                            } elseif ($stagiaire['status'] == 2) {
-                                                echo ' <i class="fa fa-check "  title="Approuvé" style="color:green; "> <span style="font-family:Segoe UI">Approuvé</span> </i> ';
-                                            }
-                                    ?>
-                                </td>
+                                
+                                
                             </tr>
                         </div>
                         <?php
@@ -247,9 +277,9 @@ if ($reste == 0) {
                     <ul class="pagination pagination-md">
                         <?php for ($i = 1; $i <= $nbrPage; $i++) {?>
                         <li class="<?php if ($i == $page) {
-    echo 'active';
-}
-    ?>">
+                            echo 'active';
+                            }
+                            ?>">
                             <a
                                 href="stage.php?page=<?php echo $i ?>&nomPostnom=<?php echo $nomPostnom; ?>&idfiliere=<?php echo $idfiliere; ?>">
                                 <?php echo $i; ?>

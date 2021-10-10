@@ -6,6 +6,14 @@
     
     // Verification des données 
 
+    $jour = date("d");
+	$m = date("m");
+	$y = date("Y");
+	$h = date("H");
+
+	$heures = $h + 1;
+	$min = date("i");
+
     $nomS = isset($_POST['nomS'])?$_POST['nomS']:"";
     $postnomS = isset($_POST['postnomS'])?$_POST['postnomS']:"";
     $prenomS = isset($_POST['prenomS'])?$_POST['prenomS']:"";
@@ -21,10 +29,10 @@
 
     //echo $nomS ."<br>" .$postnomS . "<br>" .$prenomS ."<br>" .$sexe ."<br>" .$niveau ."<br>" .$filiere ."<br>" .$entreprise ."<br>" .$section . "<br>" .$fiche;
 
-    $requeteS = "insert into stagiaire(nomS, postnomS,prenomS, sexeS,idF, idE, fiche) values(?,?,?,?,?,?,?)";
+    $requeteS = "insert into stagiaire(nomS, postnomS,prenomS, sexeS,idF, idE, fiche, jour, mois, annee, heure, minute) values(?,?,?,?,?,?,?,?,?,?,?,?)";
     $reqfil = "insert into filiere(section, niveau) values(?,?)";
 
-    $param = array($nomS, $postnomS, $prenomS,$sexe, $filiere, $entreprise, $fiche);
+    $param = array($nomS, $postnomS, $prenomS,$sexe, $filiere, $entreprise, $fiche, $jour, $m, $y, $heures, $min);
     $resultat = $pdo->prepare($requeteS);
     $resultat->execute($param);
 

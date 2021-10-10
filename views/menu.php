@@ -57,11 +57,11 @@ if (!isset($_SESSION['user'])) {
             <?php }?>
 
             <?php if ($_SESSION['user']['role'] == 'entreprise') {?>
-                <li><a href="stagiairesRecommandes.php" title="Users " active>Stagiaires_Recommandés</a></li>
+                <li><a href="stagiairesRecommandes.php" title="Users " active> <i class="fa fa-users"></i> Stagiaires_Recommandés</a></li>
             <?php }?>
 
             <?php if ($_SESSION['user']['role'] == 'entreprise') {?>
-                <li><a href="historique.php" title="Historique Stagiaires " active>Historique</a></li></li>
+                <li><a href="historique.php" title="Historique Stagiaires " active><i class="fa fa-history"></i> Historique</a></li></li>
             <?php }?>
 
             </ul>

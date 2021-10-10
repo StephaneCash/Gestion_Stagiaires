@@ -84,7 +84,8 @@ if ($reste == 0) {
 
     .div1,
     .div2,
-    .div3,.div4 {
+    .div3,
+    .div4 {
         height: 55px;
         width: auto;
         border-radius: 5px;
@@ -111,8 +112,8 @@ if ($reste == 0) {
         margin-left: 10px;
         background-color: green;
     }
-    
-    .div4{
+
+    .div4 {
         border: 1px solid #de8811;
         margin-left: 10px;
         background-color: #de8811;
@@ -140,25 +141,26 @@ if ($reste == 0) {
                 <!-- Premier block composé d'entête et du corps (Côté recherche) -->
 
                 <div class="panel panel" style="margin-top: 60px; border:1px solid silver">
-                    <div class="panel-heading" style="background-color:#32475c; color:aliceblue">Recherche des
+                    <div class="panel-heading" style="background-color:#32475c; color:aliceblue; font-family: Segoe UI; font-size:17px">Recherche des
                         stagiaires... </div>
                     <div class="panel-body">
                         <!-- partie corps coté champ text (Taper le nom de la filière) -->
                         <form method="get" action="stagiairesRecommandes.php" class="form-inline">
                             <div class="form-group">
-                                <input type="search" name="nomS" placeholder="Taper le nom du stagiaire"
+                                <input type="search" name="nomS" placeholder="Taper le nom du stagiaire" style="padding: 17px;"
                                     class="form-control" value="<?php echo $nomS; ?>">
                             </div>
 
                             <!-- Bouton de recherche -->
                             &nbsp;&nbsp;&nbsp; <button type="submit" class="btn btn"
-                                style="background: #32475c; color:white; width: 13% !important">
+                                style="background: #32475c; color:white; width: 13% !important; font-family: Segoe UI; font-size:17px">
                                 &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-search"> </span>&nbsp;&nbsp;
                                 Rechercher...
                             </button>
 
                             <a href="ResultatStagiaire.php"
-                                style='float : right; border : 1px solid black; height : 40px; padding: 10px;color:white;width: 25%; text-align:center; border-radius : 4px; background: #32475c'>
+                                style='float : right; border : 1px solid silver; height : 40px;  width:33% !important; text-decoration: none;
+                                padding: 10px;color:white; text-align:center; border-radius : 4px; background: #32475c; font-family: Segoe UI; font-size:17px;line-height: 20px;'>
                                 <span class="fa fa-plus-square"> </span> Insérer les résultats du nouveau Stagiaire
                             </a>
                         </form>
@@ -172,8 +174,8 @@ if ($reste == 0) {
                         <div class="panel-body">
 
                             <!-- Début du tableau -->
-                            <h3 style="margin-top: -12px">Tableau de bord </h3>
-                            <hr></hr>
+                            <h3 style="margin-top: -12px"> <i class="fa fa-dashboard"></i> Dashboard </h3>
+                            
                             <div class="div1">
                                 <table>
                                     <tr>
@@ -225,7 +227,7 @@ if ($reste == 0) {
                                         <th>Faculté</th>
                                         <th>Niveau et Section</th>
                                         <th>Fiche</th>
-                                        <th>Décision</th>
+                                        <th style="width:260px">Décision</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -251,11 +253,13 @@ if ($reste == 0) {
                                         <td>
                                             <a onclick="return confirm('Etes-vous sûr de vouloir accepter ce stagiaire ?')"
                                                 href="../traitement/activerStagiaire.php?idS=<?php echo $filiere['idS'] ?>&status=<?php echo 2  ?>">
-                                                <i class="fa fa-check" style="font-size:20px; color:white; background-color:#266643; padding:5px; border-radius: 5px;">Accepter</i>
+                                                <button
+                                                    style="width:100px; background-color: #2b77ba; color:aliceblue;">Accepter</button>
                                             </a>
                                             <a onclick="return confirm('Etes-vous sûr de vouloir rejeter ce stagiaire ?')"
                                                 href="../traitement/activerStagiaire.php?idS=<?php echo $filiere['idS']?>&status=<?php echo 1  ?>">
-                                                <i class="fa fa-close" style="font-size:20px; color:white; background-color: #cf0000; padding:5px;border-radius: 5px;"> Rejeter</i>
+                                                <button
+                                                    style="width:100px; background-color: #b30b00; color:aliceblue">Rejeter</button>
                                             </a>
                                         </td>
 
